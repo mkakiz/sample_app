@@ -18,6 +18,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     end
     follow_redirect!   #to designated redirect page after post request resulted
     assert_template 'users/show'
+    assert is_logged_in?   #checking login after signup. is_logged_in? is in test_helper
     assert_not flash.empty?
   end
 end
