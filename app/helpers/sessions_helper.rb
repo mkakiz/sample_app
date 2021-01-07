@@ -6,16 +6,19 @@ module SessionsHelper
   
   def remember(user)
     user.remember   #remember is in user.rb. put new_token in remember_token
-    cookies.permanent.signed[:user_id] = user.id
+    cookies.permanent.signed[:user_id] = user.id    #signed = signature for encryption
     cookies.permanent[:remember_token] = user.remember_token
   end
   
   def current_user
           #if session exists, set the user as current user
           #if not, find user from cookie and login
+          #login to permenent session by user from session[:user_id] or cookies[:user_id]
     if (user_id = session[:user_id])
+          #if session of user_id exists by adding the session into user_id
       @current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:user_id])
+          #if cookie of user_id exists by adding the cookie into user_id
       user = User.find_by(id: user_id)
       if user && user.authenticated?(cookies[:remember_token])
         log_in user
