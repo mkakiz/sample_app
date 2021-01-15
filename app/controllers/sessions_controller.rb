@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
           #else
           #  forget(user)
           #end            
-      redirect_to user   # same as redirect_to user_url(user), /users/*
+      redirect_back_or user   # in session helper. redirect to stored url.
     else
       flash.now[:danger] = "Invalid email/password combination"    #.now lets to show flash in rendered page until next action
       render 'new'
