@@ -15,12 +15,12 @@ module SessionsHelper
           #if not, find user from cookie and login
           #login to permenent session by user from session[:user_id] or cookies[:user_id]
     if (user_id = session[:user_id])
-          #if session of user_id exists by adding the session into user_id
+          #if session of user_id exists, add the session into user_id
       @current_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:user_id])
           #if cookie of user_id exists by adding the cookie into user_id
       user = User.find_by(id: user_id)
-      if user && user.authenticated?(cookies[:remember_token])
+      if user && user.authenticated?(:remember, cookies[:remember_token])   #authenticated? is in user.rb
         log_in user
         @current_user = user
       end
